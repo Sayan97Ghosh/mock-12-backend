@@ -52,7 +52,7 @@ userRouter.post("/login", async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await userModel.find({ email });
-    const name = user.name;
+    const name = user[1];
     console.log(name)
     const hashed_password = user[0].password;
 
