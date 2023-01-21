@@ -49,9 +49,11 @@ userRouter.post("/signup", async (req, res) => {
 });
 // this is for login the user
 userRouter.post("/login", async (req, res) => {
-  const { name,email, password } = req.body;
+  const { email, password } = req.body;
   try {
     const user = await userModel.find({ email });
+    const name = user.name;
+    console.log(name)
     const hashed_password = user[0].password;
 
     if (user.length > 0) {
@@ -61,7 +63,7 @@ userRouter.post("/login", async (req, res) => {
           const token = jwt.sign({ userId: user[0]._id }, "shhh", {
             expiresIn: "24h",
           });
-          res.send({ message: "login successful ", token: `${token}`,email:`${email}`,name:`${user.name}` });
+          res.send({ message: "login successful ", token: `${token}`,email:`${email}`,name:`${name}` });
         } else {
           res.send("login failed");
         }
